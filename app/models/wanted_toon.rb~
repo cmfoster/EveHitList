@@ -1,0 +1,5 @@
+class WantedToon < ActiveRecord::Base
+  attr_accessible :bounty, :character_id, :name
+  
+#   Remember this to gsub the EAAL::API::CORP::WALLETJOURNAL result  s.entries.first.reason.gsub(/[DECS:\s]/, "")
+end

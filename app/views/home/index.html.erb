@@ -1,0 +1,48 @@
+
+<div class="hero-unit">
+</div>
+
+<div id="main-row" class="row border">
+	<div id="main-column" class="span10 border">
+		<div class="span10 character border" character_id="123456">
+			<%=image_tag("http://image.eveonline.com/Character/1436418183_64.jpg")%>
+			<div class="span3 char-specs">
+				<p class="target"><span>Name:</span> Zer0 KooL</p>
+				<p class="target"><span>Threat:</span> 10/10</p>
+				<p class="target"><span>Bounty:</span> 10,000,000,000</p>
+			</div>
+			<div class="span1 char-ships">
+				<ul class="unstyled">
+					<li>Losses</li>
+					<li>Maelstrom</li>
+					<li>Cynabal</li>
+					<li>Macharial</li>
+				</ul>
+			</div>
+			<div class="span char-payout">
+			  <h4>Paid Out</h4>
+			  <p>1,200,000,000 ISK</p>
+			</div>
+		</div>
+	</div>
+	<div id="side-column" class="span5 border">
+	  <h3>New Eden Hero's</h3>
+	  <div class="span3 hero">
+	    <div class="overlay"></div>
+	    <%=image_tag("http://image.eveonline.com/character/648536349_64.jpg")%>
+	    <div id="hero-details">
+	      <p id="hero-name">Acid Burnn</p>
+	      <p id="hero-collected" class="hero">+400Mil</p>
+	    </div>
+	  </div>
+	</div>
+</div>
+
+<div id="character_modal" class="modal hide fade">Hello</div>
+
+<script>
+$('div.character').click(function(){
+ var id = $(this).attr('character_id')
+ $.post("gettoons.js", {charater_id: id});
+});
+</script>

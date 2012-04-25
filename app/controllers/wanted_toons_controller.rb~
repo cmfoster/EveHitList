@@ -1,0 +1,6 @@
+class WantedToonsController < ApplicationController
+  
+  def gettoon
+    
+  end
+end
