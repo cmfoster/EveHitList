@@ -6,7 +6,7 @@
 
 
 #ignore files
-/config/initializers/eve_corp_api_key.rb
+/config/initializers/eve_corp_api_key.r*
 
 # Ignore bundler config
 /.bundle
