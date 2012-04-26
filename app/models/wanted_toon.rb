@@ -1,11 +1,15 @@
 class WantedToon < ActiveRecord::Base
   attr_accessible :bounty, :character_id, :name
   
-#   Remember this to gsub the EAAL::API::CORP::WALLETJOURNAL result  s.entries.first.reason.gsub(/[DECS:\s]/, "")
-#   RefType 10 = Player Donation <= is what i am looking for only
-#   s.request_time.to_time = Keep an eye on this to reference next transaction to read.
-  
-  def make_wanted_toon(name,characterid,bounty)
-    
+  def self.make_wanted_toon(name,characterid,bounty)
+    wanted_toon = find_or_create_by_character_id(characterid)
+    wanted_toon.name ||= name
+    wanted_toon.bounty ? wanted_toon.bounty += bounty : wanted_toon.bounty = bounty
+    if wanted_toon.save!
+      return true
+    else
+      #create sendmail to admin with error and character information.
+      return false
+    end
   end
 end

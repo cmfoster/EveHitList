@@ -1,2 +1,2 @@
-$('#character_modal').html("<%=escape_javascript(render :partial => 'wanted_toon_sheet')%>");
+$('#character_modal').html("<%=escape_javascript(render :partial => 'wanted_toon_sheet', :locals => {:target => @wanted_toon})%>");
 $('#character_modal').modal();
