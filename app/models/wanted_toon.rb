@@ -1,4 +1,5 @@
 class WantedToon < ActiveRecord::Base
+  has_many :wt_ships
   attr_accessible :bounty, :character_id, :name
   
   def self.make_wanted_toon(name,characterid,bounty)
@@ -12,4 +13,6 @@ class WantedToon < ActiveRecord::Base
       return false
     end
   end
+  
+  
 end
