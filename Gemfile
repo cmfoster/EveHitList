@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.3'
+gem 'nokogiri'
 gem 'mechanize'
 gem 'sqlite3'
 gem 'eaal'

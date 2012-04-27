@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  lossurl: MyString
+  ship_type: MyString
+  isk_dropped: 1
+  isk_destroyed: 1
+  payout_amt: 1
+  wanted_toon_id: 1
+  solar_system: MyString
+
+two:
+  lossurl: MyString
+  ship_type: MyString
+  isk_dropped: 1
+  isk_destroyed: 1
+  payout_amt: 1
+  wanted_toon_id: 1
+  solar_system: MyString

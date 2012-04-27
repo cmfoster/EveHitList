@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120424035119) do
+ActiveRecord::Schema.define(:version => 20120427033404) do
 
   create_table "wanted_toons", :force => true do |t|
     t.integer  "character_id"
@@ -19,6 +19,19 @@ ActiveRecord::Schema.define(:version => 20120424035119) do
     t.integer  "bounty"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
+  end
+
+  create_table "wt_ships", :force => true do |t|
+    t.string   "lossurl"
+    t.string   "ship_type"
+    t.integer  "isk_dropped"
+    t.integer  "isk_destroyed"
+    t.integer  "payout_amt"
+    t.integer  "wanted_toon_id"
+    t.string   "solar_system"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+    t.datetime "eve_time_date"
   end
 
 end

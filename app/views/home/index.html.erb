@@ -15,9 +15,9 @@
 				<div class="span1 char-ships">
 					<ul class="unstyled">
 						<li>Losses</li>
-						<li>Maelstrom</li>
-						<li>Cynabal</li>
-						<li>Macharial</li>
+					  <%target.wt_ships.first(3).each do |loss|%>
+						<li><%=loss.ship_type.titleize%></li>
+					  <%end%>
 					</ul>
 				</div>
 				<div class="span char-payout">
