@@ -15,26 +15,39 @@ class PullWantedToonRecord
              [DateTime.strptime(t.xpath("td[6]").children.text,"%m/%d/%y %H:%M:%S").change(:offset => "+0000").to_s]
       } #=> ["/killboard/killmail.php?id=14625287", "Dominix", "Oijanen", "Time"]
       
-      uri_ship_system_iskdrop_ttliskloss_verified = uri_ship_system.collect{|t| t + get_ship_loss_records(t[0])}
-      #=> [[URI, SHIP TYPE, SYSTEM, TIME, ISK DESTROYED, ISK DROPPED, VERIFIED(BOOL)]]
+      uri_ship_system_iskdrop_ttliskloss_heroname_verified = uri_ship_system.collect{|t| [t + [get_ship_loss_records(t[0])]].flatten} #passing killmail URI to get_ship_loss_records
+      #=> [[URI, SHIP TYPE, SYSTEM, TIME, ISK DESTROYED, ISK DROPPED, Hero's Name, VERIFIED(BOOL)]]
     rescue
-      #Send Mailer to Admin
-    return false
+      #Send Mail to Admin
+    return true
     end
-    update_toons = uri_ship_system_iskdrop_ttliskloss_verified.collect{|v| v if v.last == 1}.delete_if{|n| n.nil?}
-    target.update_toon_create_ship_record(update_toons) if !update_toons.empty?
+    update_toons = uri_ship_system_iskdrop_ttliskloss_heroname_verified.collect{|v| v if v.last == 1}.delete_if{|n| n.nil?}
+    target.update_toon_create_ship_record(update_toons) if !update_toons.empty? #sends in the array from uri_ship_system_iskdrop_ttliskloss_heroname_verified
   end
   
   def self.get_ship_loss_records(uri)
     killmail_page = Nokogiri::HTML(open(@@battle_clinic+uri))
     begin
       isk = killmail_page.xpath("//div[@id = 'fitting']/div[@class = 'inner']/table").first.children
-      killmail_page.xpath("//div[@id = 'mailSource']/table").first.xpath("tr/td").first.children.last.values[1] == "API Verified mail" ? 
+      killmail_page.xpath("//div[@id = 'mailSource']/table").first.xpath("tr/td").first.children.last.values[1] == "API Verified mail" ? #=> CONT' NEXT LINE
       verified = 1 : verified = 0
-     return isk[1].children[2].text.gsub(',',"").to_i, isk[2].children[2].text.gsub(',',"").to_i, verified
-     #=> [isk destroyed, isk dropped,Verified(Bool)]
+      hero_name = killmail_page.xpath("//div[@id = 'pilotFinalBlow']/table").children.first.child.children[1].values.last #parse final blow character's name
+     return isk[1].children[2].text.gsub(',',"").to_i, isk[2].children[2].text.gsub(',',"").to_i, hero_name, verified
+     #=> [isk destroyed, isk dropped, Hero's Name, Verified(Bool)]
     rescue
-      #Send Mailer to Admin
+      return true
+      #Send Mail to Admin
     end
   end
+  
+  # NEED TO FIX EAAL GEM, GETTING "allianceID= NO VALID METHOD" FROM EAAL.  characterInfo
+  # def self.get_killer_of_wanted_toon(hero_name)
+  #   api = EAAL::API.new(CORP_USER_ID, CORP_VCODE, "eve")
+  #   hero_id = api.character_id(:names => hero_name).characters.first.characterID
+  #   if hero_id
+  #     api.chracterInfo(:characterID => hero_id)
+  #   else
+  #     return true
+  #   end
+  # end
 end

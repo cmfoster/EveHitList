@@ -9,9 +9,9 @@ class EveApiChecker
       wallet = acct.walletjournal
       entries = wallet.entries
     rescue EAAL::Exception.EveAPIException(500)
-      return false
+      return true
     rescue EAAL::Exception.EveAPIException(904)
-      return false
+      return true
     end
     @@last_request_time ||= wallet.request_time.to_time #Set @@last_request_time in case this is the initial launch, which is would be nil.
     outlaw_name_or_charids = entries.collect {

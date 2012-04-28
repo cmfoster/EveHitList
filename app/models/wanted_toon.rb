@@ -14,7 +14,7 @@ class WantedToon < ActiveRecord::Base
     end
   end
   
-  #update_records => [[URI, SHIP TYPE, SYSTEM, TIME, ISK DESTROYED, ISK DROPPED, VERIFIED(BOOL)]]
+  #update_records => [[URI, SHIP TYPE, SYSTEM, TIME, ISK DESTROYED, ISK DROPPED, HERO_NAME, VERIFIED(BOOL)]]
   def update_toon_create_ship_record(update_records)
     update_records.each do |r|
       if WtShip.find_by_lossurl(r[0]) #unless there is an exact time match for a record, create a new record
