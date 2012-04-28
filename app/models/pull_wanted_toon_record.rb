@@ -6,13 +6,13 @@ class PullWantedToonRecord
   @@killboard = "/killboard/combat_record.php?type=player&name="
   
   def self.find_new_bc_records(target)
-    stats_page = Nokogiri::HTML(open(@@battle_clinic+@@killboard+target.name+"#losses"))
+    stats_page = Nokogiri::HTML(open(@@battle_clinic+@@killboard+target.name.gsub(/\s/, "%20")+"#losses"))
     begin
       tbody = stats_page.xpath("//div[@id = 'lossContainer']/table[@class = 'contentListTable']/tbody")
       #Collect arrays with URL,ShipType,SystemName and strip down system name to only letters
       uri_ship_system = tbody.first.children.first(3).collect{
 	|t| t.xpath("td[1]").children.children.first.values + [t.xpath("td[5]").children.text.gsub(/[^A-Za-z]/, "")] +
-             [DateTime.strptime(t.xpath("td[6]").children.text,"%m/%d/%y %I:%M:%S").change(:offset => "+0000").to_s]
+             [DateTime.strptime(t.xpath("td[6]").children.text,"%m/%d/%y %H:%M:%S").change(:offset => "+0000").to_s]
       } #=> ["/killboard/killmail.php?id=14625287", "Dominix", "Oijanen", "Time"]
       
       uri_ship_system_iskdrop_ttliskloss_verified = uri_ship_system.collect{|t| t + get_ship_loss_records(t[0])}

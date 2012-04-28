@@ -17,8 +17,8 @@ class WantedToon < ActiveRecord::Base
   #update_records => [[URI, SHIP TYPE, SYSTEM, TIME, ISK DESTROYED, ISK DROPPED, VERIFIED(BOOL)]]
   def update_toon_create_ship_record(update_records)
     update_records.each do |r|
-      if WtShip.find_by_eve_time_date(r[3]) #unless there is an exact time match for a record, create a new record
-	return false
+      if WtShip.find_by_lossurl(r[0]) #unless there is an exact time match for a record, create a new record
+	      return false
       else
 	wt_ships.create!(:lossurl => r[0], :ship_type => r[1], :solar_system => r[2], :eve_time_date => r[3], 
 			:isk_destroyed => r[4], :isk_dropped => r[5], :payout_amt => ((r[4] - r[5]) * 0.65)
