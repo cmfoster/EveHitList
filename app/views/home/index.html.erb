@@ -22,21 +22,23 @@
 				</div>
 				<div class="span char-payout">
 				  <h4>Paid Out</h4>
-				  <p>1,200,000,000 ISK</p>
+				  <p><%=number_with_delimiter(target.wt_ships.collect{|t| t.payout_amt}.sum)%> <small>ISK</small></p>
 				</div>
 			</div>
 		<%end%>
 	</div>
 	<div id="side-column" class="span5 border">
 	  <h3>New Eden Hero's</h3>
+	  <%@eden_heros.each do |hero|%>
 	  <div class="span3 hero">
 	    <div class="overlay"></div>
-	    <%=image_tag("http://image.eveonline.com/character/648536349_64.jpg")%>
+	    <%=image_tag("http://image.eveonline.com/character/#{hero.character_id}_64.jpg")%>
 	    <div id="hero-details">
-	      <p id="hero-name">Acid Burnn</p>
-	      <p id="hero-collected" class="hero">+400Mil</p>
+	      <p id="hero-name"><%=hero.name.titleize%></p>
+	      <p id="hero-collected" class="hero"><%=number_with_delimiter(hero.earned_bounty_amt)%> <small>ISK</small></p>
 	    </div>
 	  </div>
+	  <%end%>
 	</div>
 </div>
 

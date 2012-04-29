@@ -7,37 +7,29 @@ class PullWantedToonRecord
   
   def self.find_new_bc_records(target)
     stats_page = Nokogiri::HTML(open(@@battle_clinic+@@killboard+target.name.gsub(/\s/, "%20")+"#losses"))
-    begin
-      tbody = stats_page.xpath("//div[@id = 'lossContainer']/table[@class = 'contentListTable']/tbody")
-      #Collect arrays with URL,ShipType,SystemName and strip down system name to only letters
-      uri_ship_system = tbody.first.children.first(3).collect{
-	|t| t.xpath("td[1]").children.children.first.values + [t.xpath("td[5]").children.text.gsub(/[^A-Za-z]/, "")] +
-             [DateTime.strptime(t.xpath("td[6]").children.text,"%m/%d/%y %H:%M:%S").change(:offset => "+0000").to_s]
+    tbody = stats_page.xpath("//div[@id = 'lossContainer']/table[@class = 'contentListTable']/tbody")
+    
+    #Collect arrays with URL,ShipType,SystemName and strip down system name to only letters
+    uri_ship_system = tbody.first.children.first(3).collect{
+      |t| t.xpath("td[1]").children.children.first.values + [t.xpath("td[5]").children.text.gsub(/[^A-Za-z]/, "")] +
+           [DateTime.strptime(t.xpath("td[6]").children.text,"%m/%d/%y %H:%M:%S").change(:offset => "+0000").to_s]
       } #=> ["/killboard/killmail.php?id=14625287", "Dominix", "Oijanen", "Time"]
       
-      uri_ship_system_iskdrop_ttliskloss_heroname_verified = uri_ship_system.collect{|t| [t + [get_ship_loss_records(t[0])]].flatten} #passing killmail URI to get_ship_loss_records
-      #=> [[URI, SHIP TYPE, SYSTEM, TIME, ISK DESTROYED, ISK DROPPED, Hero's Name, VERIFIED(BOOL)]]
-    rescue
-      #Send Mail to Admin
-    return true
-    end
+    uri_ship_system_iskdrop_ttliskloss_heroname_verified = uri_ship_system.collect{|t| [t + [get_ship_loss_records(t[0])]].flatten} #passing killmail URI to get_ship_loss_records
+    #=> [[URI, SHIP TYPE, SYSTEM, TIME, ISK DESTROYED, ISK DROPPED, Hero's Name, Hero's Character ID, VERIFIED(BOOL)]]
     update_toons = uri_ship_system_iskdrop_ttliskloss_heroname_verified.collect{|v| v if v.last == 1}.delete_if{|n| n.nil?}
     target.update_toon_create_ship_record(update_toons) if !update_toons.empty? #sends in the array from uri_ship_system_iskdrop_ttliskloss_heroname_verified
   end
   
   def self.get_ship_loss_records(uri)
     killmail_page = Nokogiri::HTML(open(@@battle_clinic+uri))
-    begin
       isk = killmail_page.xpath("//div[@id = 'fitting']/div[@class = 'inner']/table").first.children
       killmail_page.xpath("//div[@id = 'mailSource']/table").first.xpath("tr/td").first.children.last.values[1] == "API Verified mail" ? #=> CONT' NEXT LINE
       verified = 1 : verified = 0
       hero_name = killmail_page.xpath("//div[@id = 'pilotFinalBlow']/table").children.first.child.children[1].values.last #parse final blow character's name
-     return isk[1].children[2].text.gsub(',',"").to_i, isk[2].children[2].text.gsub(',',"").to_i, hero_name, verified
-     #=> [isk destroyed, isk dropped, Hero's Name, Verified(Bool)]
-    rescue
-      return true
-      #Send Mail to Admin
-    end
+      hero_character_id = EAAL::API.new(CORP_USER_ID, CORP_VCODE, "eve").characterID(:names => hero_name).characters.first.characterID
+     return isk[1].children[2].text.gsub(',',"").to_i, isk[2].children[2].text.gsub(',',"").to_i, hero_name, hero_character_id.to_i, verified
+     #=> [isk destroyed, isk dropped, Hero's Name, Hero's Character ID, Verified(Bool)]
   end
   
   # NEED TO FIX EAAL GEM, GETTING "allianceID= NO VALID METHOD" FROM EAAL.  characterInfo

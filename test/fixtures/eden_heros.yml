@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  character_id: 1
+  earned_bounty_amt: 1
+  killuri: MyString
+
+two:
+  name: MyString
+  character_id: 1
+  earned_bounty_amt: 1
+  killuri: MyString
