@@ -4,7 +4,7 @@ class EveApiChecker
   
   #check corporation wallet journal for all refTypeID's of 10(donations) and dated after last donation recieved.
   def self.check_corp_journal_for_new_donations(test_time=nil)
-    acct = eve_api
+    acct = eve_api("corp")
     begin
       wallet = acct.walletjournal
       entries = wallet.entries
@@ -23,54 +23,51 @@ class EveApiChecker
     get_character_id(acct, outlaw_name_or_charids) if !outlaw_name_or_charids.empty?
   end
   
-  def self.eve_api
-    EAAL::API.new(CORP_USER_ID, CORP_VCODE, "corp")
+  def self.eve_api(scope_opt)
+    EAAL::API.new(CORP_USER_ID, CORP_VCODE, scope_opt)
   end
   
   def self.log_api_access_time(time=nil) #when starting the app for first time, time may be nil. Also this allow you to check the log time.
     time ? @@last_request_time = time : @@last_request_time 
   end
   
-  def self.get_character_id(acct, outlaw_name_or_charids)
-    acct.scope = "eve"
+  def self.get_character_id(acct, outlaw_name_or_charids) #TODO CREATE A NEW API CALL TO COLLECT "characterInfo" FOR EACH ID. RUN A .COLLECT{|A| EAAL.CHARACTERINFO *}
+    acct = eve_api("eve")
     outlaws_with_ids = outlaw_name_or_charids.collect{|c| c if is_int(c[0])}.delete_if{|g| g.nil?}
     outlaws_with_names = outlaw_name_or_charids.collect{|c| c if !is_int(c[0])}.delete_if{|g| g.nil?}
     get_character_name(acct, outlaws_with_ids) if !outlaws_with_ids.empty?
     begin
       #submit an array of only the characters with names
-      temp_coll = acct.characterID(:names =>outlaws_with_names.collect{|n| n[0]}.join(',')).characters
-    rescue
-      return false
-    end
-    combine = temp_coll.collect{|t| [t.name,t.characterID]}.zip(outlaws_with_names.collect{|o| o[1]}).each{|t| t.flatten!}
-    #Output=> [["ACID BURNN", "648536349", "20000000.00"], ["Zer0 kooL", "1436418183", "10000000.00"]]
-    # [[NAME,CHARACTERID,BOUNTY PLACED]]
-    combine.each do |target|
-      if target[1] != 0
-        WantedToon.make_wanted_toon(target[0],target[1].to_i,target[2].to_i)
-      else
-        #create sendmail to admin with log of failed name
-        return false
+      temp_coll_name_id = acct.characterID(:names =>outlaws_with_names.collect{|n| n[0]}.join(',')).characters
+      combine = temp_coll_name_id.collect{|t| [t.name,t.characterID]}.zip(outlaws_with_names.collect{|o| o[1]}).each{|t| t.flatten!}
+      # [[NAME,CHARACTERID,BOUNTY PLACED]]
+      
+      combine.each do |target|
+        if target[1] != 0
+          WantedToon.make_wanted_toon(target[0],target[1].to_i,target[2].to_i)
+        end
       end
+    rescue
+      #create sendmail to admin with log of failed name
+      return false
     end
   end
   
   def self.get_character_name(acct, outlaws_with_ids)
     begin
-	acct.scope = "eve"
-	target_names = acct.charactername(:ids => outlaws_with_ids.collect{|c| c[0].gsub("'", "")}.join(',')).characters
-	p target_names
-	p outlaws_with_ids
+    	acct.scope = "eve"
+    	target_names = acct.charactername(:ids => outlaws_with_ids.collect{|c| c[0].gsub("'", "")}.join(',')).characters
+
     rescue
-	return false
+	    return false
     end
     combine = target_names.collect{|t| t.name}.zip(outlaws_with_ids.collect{|o| [o[0],o[1]]}).each{|f| f.flatten!}
     combine.each do |target|
       if target[0].size > 0
-	WantedToon.make_wanted_toon(target[0], target[1].to_i, target[2].to_i)
+	      WantedToon.make_wanted_toon(target[0], target[1].to_i, target[2].to_i)
       else
-	#create sendmail to admin with log of failed name
-	return false
+	      #create sendmail to admin with log of failed name
+	      return false
       end
     end
   end

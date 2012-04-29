@@ -10,7 +10,7 @@ class PullWantedToonRecord
     tbody = stats_page.xpath("//div[@id = 'lossContainer']/table[@class = 'contentListTable']/tbody")
     
     #Collect arrays with URL,ShipType,SystemName and strip down system name to only letters
-    uri_ship_system = tbody.first.children.first(3).collect{
+    uri_ship_system = tbody.first.children.collect{
       |t| t.xpath("td[1]").children.children.first.values + [t.xpath("td[5]").children.text.gsub(/[^A-Za-z]/, "")] +
            [DateTime.strptime(t.xpath("td[6]").children.text,"%m/%d/%y %H:%M:%S").change(:offset => "+0000").to_s]
       } #=> ["/killboard/killmail.php?id=14625287", "Dominix", "Oijanen", "Time"]
