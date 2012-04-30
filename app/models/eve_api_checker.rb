@@ -13,9 +13,9 @@ class EveApiChecker
     rescue EAAL::Exception.EveAPIException(904)
       return true
     end
-    @@last_request_time ||= wallet.request_time.to_time #Set @@last_request_time in case this is the initial launch, which is would be nil.
+    @@last_request_time ||= wallet.request_time.to_time #Set @@last_request_time in case this is the initial launch, which would be nil.
     outlaw_name_or_charids = entries.collect {
-      |e| [e.reason.gsub(/[DECS:'\n]/, "").gsub(/^\s/,""), e.amount] if e.refTypeID.to_i == 10 && e.date.to_time > (test_time || @@last_request_time)
+      |e| [e.reason.gsub(/[DECS:'\n]/, "").gsub(/^\s/,""), e.amount] if e.refTypeID.to_i == 10 && e.date.to_time > (test_time || @@last_request_time.to_time)
       }
   # return outlaw_name_or_charids unless test_time.nil?
     outlaw_name_or_charids.delete_if {|t| t.nil?}
