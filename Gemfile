@@ -5,6 +5,7 @@ gem 'nokogiri'
 gem 'whenever', :require => false
 gem 'mechanize'
 gem 'sqlite3'
+gem 'resque', :require => "resque/server"
 gem 'eaal'
 gem "twitter-bootstrap-rails"
 gem 'whenever', :require => false

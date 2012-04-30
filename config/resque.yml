@@ -1,0 +1,3 @@
+development: localhost:7169
+test: localhost:7169
+production: evehitlist.com:7169

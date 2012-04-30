@@ -1,10 +1,14 @@
 class EveApiChecker 
-  
+    require 'eaal'
+  require 'open-uri'
   @@last_request_time = nil
   
+  def self.start_process(time=nil)
+    Resque.enqueue(AddNewTarget, time)
+  end
   #check corporation wallet journal for all refTypeID's of 10(donations) and dated after last donation recieved.
   def self.check_corp_journal_for_new_donations(test_time=nil)
-    acct = eve_api("corp")
+    acct = EveApiChecker.eve_api("corp")
     begin
       wallet = acct.walletjournal
       entries = wallet.entries

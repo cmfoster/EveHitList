@@ -5,6 +5,10 @@ class PullWantedToonRecord
   @@battle_clinic = "http://eve.battleclinic.com"
   @@killboard = "/killboard/combat_record.php?type=player&name="
   
+  def self.start_process(target_id)
+    Resque.enqueue(GatherTargetRecord, target_id)
+  end
+  
   def self.find_new_bc_records(target) #TODO, assign each call to pull records to its own worker process to run in the background. 
     counter = 0 #variable set to retry pulling killmail record 3 times. see line 24.
     begin
