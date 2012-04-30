@@ -32,7 +32,7 @@ class EveApiChecker
   end
   
   def self.get_character_id(acct, outlaw_name_or_charids) #TODO CREATE A NEW API CALL TO COLLECT "characterInfo" FOR EACH ID. RUN A .COLLECT{|A| EAAL.CHARACTERINFO *}
-    acct = eve_api("eve")
+    acct = eve_api("eve") #Not really necessary but kept here anyway.
     outlaws_with_ids = outlaw_name_or_charids.collect{|c| c if is_int(c[0])}.delete_if{|g| g.nil?}
     outlaws_with_names = outlaw_name_or_charids.collect{|c| c if !is_int(c[0])}.delete_if{|g| g.nil?}
     get_character_name(acct, outlaws_with_ids) if !outlaws_with_ids.empty?
@@ -41,10 +41,11 @@ class EveApiChecker
       temp_coll_name_id = acct.characterID(:names =>outlaws_with_names.collect{|n| n[0]}.join(',')).characters
       combine = temp_coll_name_id.collect{|t| [t.name,t.characterID]}.zip(outlaws_with_names.collect{|o| o[1]}).each{|t| t.flatten!}
       # [[NAME,CHARACTERID,BOUNTY PLACED]]
-      
       combine.each do |target|
         if target[1] != 0
-          WantedToon.make_wanted_toon(target[0],target[1].to_i,target[2].to_i)
+          corp_alliance = get_char_corp_alliance(target[1]) || ["Unknown","Unknown"] #Start Getting CharacterInfo
+          WantedToon.make_wanted_toon(target[0],target[1].to_i,target[2].to_i,corp_alliance[0],corp_alliance[1])
+          #Sending in => [NAME,CHARACTERID,BOUNTY PLACED,CORPORATION,ALLIANCE]
         end
       end
     rescue
@@ -53,18 +54,46 @@ class EveApiChecker
     end
   end
   
+  def self.get_char_corp_alliance(char_id)
+    acct = EAAL::API.new("", "", "eve")
+    counter = 0
+    #Put this begin/rescue process in a worker thread
+    begin
+      char_info = acct.characterInfo(:characterID => char_id)
+      corp_alliance = [char_info.corporation, char_info.alliance]
+      return corp_alliance
+    rescue
+      if counter < 3
+        counter += 1
+        sleep(1200) if Rails.env.production? #wait 20minutes before next pull if failure
+        retry
+      else
+        counter = 0
+      end
+      #send Admin Email
+      return ["Unknown","Unknown"]
+    end
+  end
+  
   def self.get_character_name(acct, outlaws_with_ids)
+    counter = 0
     begin
     	acct.scope = "eve"
     	target_names = acct.charactername(:ids => outlaws_with_ids.collect{|c| c[0].gsub("'", "")}.join(',')).characters
-
     rescue
-	    return false
+      if counter < 3
+        counter += 1
+        sleep(1200) if Rails.env.production? #wait 20minutes before next pull if failure
+        retry
+      else
+        counter = 0
+      end
     end
     combine = target_names.collect{|t| t.name}.zip(outlaws_with_ids.collect{|o| [o[0],o[1]]}).each{|f| f.flatten!}
     combine.each do |target|
       if target[0].size > 0
-	      WantedToon.make_wanted_toon(target[0], target[1].to_i, target[2].to_i)
+        corp_alliance = get_char_corp_alliance(target[1])  #Start Getting CharacterInfo
+	      WantedToon.make_wanted_toon(target[0], target[1].to_i, target[2].to_i,corp_alliance[0],corp_alliance[1]) #=> [NAME,CHARACTERID,BOUNTY,CORPORATION,ALLIANCE]
       else
 	      #create sendmail to admin with log of failed name
 	      return false

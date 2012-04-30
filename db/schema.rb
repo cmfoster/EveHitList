@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120428235027) do
+ActiveRecord::Schema.define(:version => 20120430003450) do
 
   create_table "eden_heros", :force => true do |t|
     t.string   "name"
@@ -26,8 +26,11 @@ ActiveRecord::Schema.define(:version => 20120428235027) do
     t.integer  "character_id"
     t.string   "name"
     t.integer  "bounty"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.boolean  "active_bounty"
+    t.string   "corporation"
+    t.string   "alliance"
   end
 
   create_table "wt_ships", :force => true do |t|

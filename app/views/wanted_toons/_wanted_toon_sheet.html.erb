@@ -7,13 +7,15 @@
   <div class="char_sheet span3">
     <%=image_tag("wantedsmall.png")%>
     <p class="target"><span>Outstanding Bounty: </span><%=number_with_delimiter(target.bounty, :delimiter => ',')%> ISK</p>
-    <p class="target"><span>Corporation: </span>Project Nemesis</p>
-    <p class="target"><span>Alliance: </span>Dec Shield</p>
+    <p class="target"><span>Corporation: </span><%=target.corporation.titleize%></p>
+	<%if target.alliance%>
+    	<p class="target"><span>Alliance: </span><%=target.alliance.titleize%></p>
+	<%end%>
     <p class="target"><span>Last seen at:</span></p>
     <ul class="unstyled">
-      <li>Jita</li>
-      <li>Uedama</li>
-      <li>Deltole</li>
+	<%target.last_known_locations.each do |location|%>
+      <li><%=location%></li>
+	<%end%>
     </ul>
   </div>
   

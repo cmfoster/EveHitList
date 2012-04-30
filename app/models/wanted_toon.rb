@@ -1,11 +1,24 @@
 class WantedToon < ActiveRecord::Base
   has_many :wt_ships, :order => :created_at
-  attr_accessible :bounty, :character_id, :name
+  attr_accessible :bounty, :character_id, :name, :active_bounty
+  scope :active_bounties, :conditions => {:active_bounty => true}
   
-  def self.make_wanted_toon(name,characterid,bounty)
+  def last_known_locations
+    eve_time = Time.now.utc
+    losses = wt_ships.where('eve_time_date BETWEEN ? AND ?', eve_time - 15.days, eve_time).order('eve_time_date DESC')
+    losses.empty? ? location = ["No Locations Recorded"] : location = losses.collect{|l| l.solar_system}.uniq{|l| l}.first(3)
+    return location
+  end
+
+  def self.make_wanted_toon(name,characterid,bounty,corp,alliance)
     wanted_toon = find_or_create_by_character_id(characterid)
     wanted_toon.name ||= name
+    wanted_toon.corporation = corp
+    wanted_toon.alliance = alliance
     wanted_toon.bounty ? wanted_toon.bounty += bounty : wanted_toon.bounty = bounty
+    wanted_toon.active_bounty = 1 if wanted_toon.bounty > 0
+    wanted_toon.active_bounty = 0 if wanted_toon.bounty <= 0
+    puts [name,characterid,bounty,corp,alliance]
     if wanted_toon.save!
       return true
     else
@@ -24,6 +37,7 @@ class WantedToon < ActiveRecord::Base
         if self.bounty < payout
           payout = self.bounty
           self.bounty = 0
+          self.active_bounty = 0
           self.save
         end
   	    ship_lost = wt_ships.create!(:lossurl => r[0], :ship_type => r[1], :solar_system => r[2], :eve_time_date => r[3], 
