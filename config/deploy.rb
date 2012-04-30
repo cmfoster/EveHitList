@@ -35,4 +35,3 @@ role :db,  "74.207.237.5"
      run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
    end
  end
-V
