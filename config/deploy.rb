@@ -3,6 +3,8 @@ set :rvm_ruby_string, 'default'
 set :rvm_type, :user
 
 require "bundler/capistrano"
+set :whenever_command, "bundle exec whenever"
+require "whenever/capistrano"
 
 set :application, "EveHitList"
 set :user, "n0de"
@@ -33,3 +35,4 @@ role :db,  "74.207.237.5"
      run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
    end
  end
+V
