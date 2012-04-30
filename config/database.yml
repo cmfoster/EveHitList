@@ -19,9 +19,9 @@ test:
   timeout: 5000
 
 production:
-  adapter: posgresql
-  database: db/Eve_Hit_list_production
-  username: evehitlist
-  password: mostwanted!
+  adapter: postgresql
+  database: Eve_Hit_List_production
+  username: EHL_app
+  password: wanted!
   host: localhost
   encoding: UTF8
