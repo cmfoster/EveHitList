@@ -9,7 +9,7 @@ gem 'eaal'
 gem "twitter-bootstrap-rails"
 gem 'whenever', :require => false
 
-group production do
+group :production do
   gem 'pg'
 end
 
