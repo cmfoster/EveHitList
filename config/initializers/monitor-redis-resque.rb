@@ -11,8 +11,6 @@ num_workers = rails_env == 'production' ? 3 : 2
     w.stop = "killall -9 redis-server"
     w.start_grace = 10.seconds
     w.restart_grace = 10.seconds
-    w.uid = 'git'
-    w.pid = 'git'
 
     w.start_if do |start|
       start.condition(:process_running) do |c|
