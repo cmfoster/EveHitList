@@ -47,6 +47,6 @@
 <script>
 $('div.character').click(function(){
  var id = $(this).attr('character_id')
- $.post("gettoons.js", {character_id: id});
+ $.post("gettoons", {character_id: id});
 });
 </script>

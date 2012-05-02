@@ -9,6 +9,7 @@ gem 'resque', :require => "resque/server"
 gem 'eaal'
 gem "twitter-bootstrap-rails"
 gem 'whenever', :require => false
+gem 'god'
 
 group :production do
   gem 'pg'
