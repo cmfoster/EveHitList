@@ -14,7 +14,7 @@ namespace :queue do
       system("kill -QUIT #{pids.join(' ')}")
     end
     
-    :environment == "production" ? system("rm /home/n0de/.god/pids/resque-*.pid") : system("rm /Users/curtis/.god/pids/resque-*.pid")
+    Rails.env == "production" ? system("rm /home/n0de/.god/pids/resque-*.pid") : system("rm /Users/curtis/.god/pids/resque-*.pid")
   end
 end
 
