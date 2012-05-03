@@ -1,10 +1,9 @@
 require "rvm/capistrano"
 set :rvm_ruby_string, 'default'
 set :rvm_type, :user
-
-require "bundler/capistrano"
-set :whenever_command, "bundle exec whenever --update-crontab"
 require "whenever/capistrano"
+require "bundler/capistrano"
+set :whenever_command, "bundle exec whenever"
 
 set :application, "EveHitList"
 set :user, "n0de"
