@@ -19,8 +19,9 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every 45.minutes do 
-  runner "EveApiChecker.check_corp_journal_for_new_donations"
+every 2.minutes do 
+#  runner "EveApiChecker.check_corp_journal_for_new_donations"
+  runner "WantedToon.creater!(:name => 'TEST'')"
 end
 
 every 8.hours do 
