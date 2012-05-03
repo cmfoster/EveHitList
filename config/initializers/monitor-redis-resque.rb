@@ -1,5 +1,5 @@
-rails_env = Rails.env || "production"
-rails_root = Rails.root || "/Users/curtis/workspace/EveHitlist"
+rails_env = ENV['RAILS_ENV'] || "production"
+rails_root = ENV['RAILS_ROOT'] || "/Users/curtis/workspace/EveHitlist"
 num_workers = rails_env == 'production' ? 3 : 2
 
 # Redis
@@ -7,7 +7,7 @@ num_workers = rails_env == 'production' ? 3 : 2
   God.watch do |w|
     w.name = "redis"
     w.interval = 30.seconds
-    w.start = "/etc/init.d/redis start"
+    w.start = "/etc/init.d/redis_7169 start"
     w.stop = "killall -9 redis-server"
     w.start_grace = 10.seconds
     w.restart_grace = 10.seconds
@@ -29,7 +29,7 @@ num_workers.times do |num|
     w.name = "resque-#{num}"
     w.group = 'resque'
     w.interval = 30.seconds
-    w.env = {"QUEUE"=>"critical,high,low", "RAILS_ENV"=>rails_env}
+    w.env = {"QUEUE"=>"check_wallet_queue,pull_target_records_queue", "RAILS_ENV"=>rails_env}
     w.start = "cd #{rails_root} && rake environment RAILS_ENV=#{rails_env} resque:work QUEUE=check_wallet_queue,pull_target_records_queue"
     w.start_grace = 10.seconds
 
