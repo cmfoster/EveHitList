@@ -29,7 +29,7 @@ num_workers.times do |num|
     w.name = "resque-#{num}"
     w.group = 'resque'
     w.interval = 30.seconds
-    w.env = {"QUEUE"=>"check_wallet_queue,pull_target_records_queue", "RAILS_ENV"=>rails_env}
+    w.env = {"QUEUE"=>"critical,high,low", "RAILS_ENV"=>rails_env}
     w.start = "cd #{rails_root} && rake environment RAILS_ENV=#{rails_env} resque:work QUEUE=check_wallet_queue,pull_target_records_queue"
     w.start_grace = 10.seconds
 
