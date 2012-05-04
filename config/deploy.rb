@@ -3,7 +3,7 @@ set :rvm_ruby_string, 'default'
 set :rvm_type, :user
 require "whenever/capistrano"
 require "bundler/capistrano"
-set :whenever_command, "bundle exec whenever"
+set :whenever_command, "cd #{current_path} && bundle exec whenever"
 
 set :application, "EveHitList"
 set :user, "n0de"

@@ -1,5 +1,5 @@
-rails_env = ENV['RAILS_ENV'] || "production"
-rails_root = ENV['RAILS_ROOT'] || "/home/n0de/EveHitList/current"
+rails_env = Rails.env || "production"
+rails_root = Rails.root || "/home/n0de/EveHitList/current"
 num_workers = rails_env == 'production' ? 3 : 2
 
 # Redis
