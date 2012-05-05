@@ -18,10 +18,11 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
+set :job_template, "bash -l -i -c ':job'"
 
 every 2.minutes do 
-#  runner "EveApiChecker.check_corp_journal_for_new_donations"
-  runner "WantedToon.create!(:name => 'TEST'')"
+  runner "EveApiChecker.check_corp_journal_for_new_donations"
+  # runner "WantedToon.create!(:name => 'TEST'')"
 end
 
 every 8.hours do 

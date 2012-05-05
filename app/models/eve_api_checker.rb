@@ -12,11 +12,6 @@ class EveApiChecker
     begin
       wallet = acct.walletjournal
       entries = wallet.entries
-    rescue EAAL::Exception.EveAPIException(500)
-      return true
-    rescue EAAL::Exception.EveAPIException(904)
-      return true
-    end
     @@last_request_time ||= wallet.request_time.to_time #Set @@last_request_time in case this is the initial launch, which would be nil.
     outlaw_name_or_charids = entries.collect {
       |e| [e.reason.gsub(/[DECS:'\n]/, "").gsub(/^\s/,""), e.amount] if e.refTypeID.to_i == 10 && e.date.to_time > (test_time || @@last_request_time.to_time)
@@ -25,6 +20,11 @@ class EveApiChecker
     outlaw_name_or_charids.delete_if {|t| t.nil?}
     log_api_access_time(wallet.request_time.to_time)
     get_character_id(acct, outlaw_name_or_charids) if !outlaw_name_or_charids.empty?
+    rescue EAAL::Exception.EveAPIException(500)
+      return true
+    rescue EAAL::Exception.EveAPIException(904)
+      return true
+    end
   end
   
   def self.eve_api(scope_opt)
