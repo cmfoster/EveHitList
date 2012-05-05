@@ -3,9 +3,8 @@ set :rvm_ruby_string, 'default'
 set :rvm_type, :user
 require "whenever/capistrano"
 require "bundler/capistrano"
-set :whenever_command, "cd #{current_path} && bundle exec whenever"
-
 set :application, "EveHitList"
+set :whenever_command, "cd #{current_path} && bundle exec whenever"
 set :user, "n0de"
 set :repository,  "git@github.com:cmfoster/EveHitList.git"
 set :branch, "master"
@@ -33,7 +32,7 @@ namespace :deploy do
  task :restart, :roles => :app, :except => { :no_release => true } do
    run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
    run "cd #{current_path} && rake queue:restart_workers RAILS_ENV=production"
-   run "god start -c #{current_path}/config/initializers/monitor-redis-resque.rb"
+   run "god start -c #{current_path}/config/monitor-redis-resque.rb"
  end
 end
 

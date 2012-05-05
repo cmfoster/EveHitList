@@ -21,7 +21,7 @@
 set :job_template, "bash -l -i -c ':job'"
 
 every 2.minutes do 
-  runner "EveApiChecker.check_corp_journal_for_new_donations"
+  runner "EveApiChecker.start_process(Time.now - 45.minutes)"
   # runner "WantedToon.create!(:name => 'TEST'')"
 end
 
