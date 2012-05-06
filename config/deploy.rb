@@ -4,7 +4,6 @@ set :rvm_type, :user
 require "whenever/capistrano"
 require "bundler/capistrano"
 set :application, "EveHitList"
-set :whenever_command, "cd #{current_path} && bundle exec whenever"
 set :user, "n0de"
 set :repository,  "git@github.com:cmfoster/EveHitList.git"
 set :branch, "master"
@@ -26,6 +25,7 @@ role :db,  "74.207.237.5"
 # these http://github.com/rails/irs_process_scripts
 
 # If you are using Passenger mod_rails uncomment this:
+set :whenever_command, "cd #{current_path} && bundle exec whenever"
 namespace :deploy do
  task :start do ; end
  task :stop do ; end
