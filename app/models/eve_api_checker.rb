@@ -1,7 +1,9 @@
 class EveApiChecker 
-    require 'eaal'
+  require 'eaal'
   require 'open-uri'
   @@last_request_time = nil
+  @@CORP_USER_ID = "874265"
+  @@CORP_VCODE = "truf6sOdsU3XHAwRcB0Y53l8fvzsVqlu8eRGTECb6zioTpaYWUzaCxGJXPxogplT"
   
   def self.start_process(time=nil)
     Resque.enqueue(AddNewTarget, time)
@@ -28,7 +30,7 @@ class EveApiChecker
   end
   
   def self.eve_api(scope_opt)
-    EAAL::API.new(CORP_USER_ID, CORP_VCODE, scope_opt)
+    EAAL::API.new(@@CORP_USER_ID, @@CORP_VCODE, scope_opt)
   end
   
   def self.log_api_access_time(time=nil) #when starting the app for first time, time may be nil. Also this allow you to check the log time.
