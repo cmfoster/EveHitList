@@ -4,6 +4,8 @@ class PullWantedToonRecord
   
   @@battle_clinic = "http://eve.battleclinic.com"
   @@killboard = "/killboard/combat_record.php?type=player&name="
+  @@CORP_USER_ID = "874265"
+  @@CORP_VCODE = "truf6sOdsU3XHAwRcB0Y53l8fvzsVqlu8eRGTECb6zioTpaYWUzaCxGJXPxogplT"
   
   def self.start_process(target_id)
     Resque.enqueue(GatherTargetRecord, target_id)
@@ -45,7 +47,7 @@ class PullWantedToonRecord
       killmail_page.xpath("//div[@id = 'mailSource']/table").first.xpath("tr/td").first.children.last.values[1] == "API Verified mail" ? #=> CONT' NEXT LINE
       verified = 1 : verified = 0
       hero_name = killmail_page.xpath("//div[@id = 'pilotFinalBlow']/table").children.first.child.children[1].values.last #parse final blow character's name
-      hero_character_id = EAAL::API.new(CORP_USER_ID, CORP_VCODE, "eve").characterID(:names => hero_name).characters.first.characterID
+      hero_character_id = EAAL::API.new(@@CORP_USER_ID, @@CORP_VCODE, "eve").characterID(:names => hero_name).characters.first.characterID
      return isk[1].children[2].text.gsub(',',"").to_i, isk[2].children[2].text.gsub(',',"").to_i, hero_name, hero_character_id.to_i, verified
      #=> [isk destroyed, isk dropped, Hero's Name, Hero's Character ID, Verified(Bool)]
   end
