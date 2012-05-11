@@ -20,7 +20,7 @@
 # Learn more: http://github.com/javan/whenever
 set :job_template, "bash -l -i -c ':job'"
 
-every 2.minutes do 
+every 45.minutes do 
   runner "EveApiChecker.start_process(Time.now - 45.minutes)"
   # runner "WantedToon.create!(:name => 'TEST'')"
 end
