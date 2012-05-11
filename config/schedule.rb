@@ -26,5 +26,5 @@ every 45.minutes do
 end
 
 every 8.hours do 
-  runner "WantedToon.active_bounties.each{|target| PullWantedTargetRecord.find_new_bc_records(target)}"
+  runner "WantedToon.active_bounties.each{|target| PullWantedToonRecord.find_new_bc_records(target)}"
 end
