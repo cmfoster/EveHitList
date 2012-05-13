@@ -1,5 +1,5 @@
-<div id="main-row" class="row border">
-	<div id="main-column" class="span10 border">
+<div id="main-row" class="row">
+	<div id="main-column" class="span10">
 		<%@wanted_list.each do |target|%>
 			<div class="span10 character border" character_id="<%=target.character_id%>">
 				<%=image_tag("http://image.eveonline.com/Character/#{target.character_id}_64.jpg")%>
@@ -22,9 +22,8 @@
 				</div>
 			</div>
 		<%end%>
-		<%=paginate @wanted_list%>
 	</div>
-	<div id="side-column" class="span5 border">
+	<div id="side-column" class="span5">
 	  <h3>New Eden Hero's</h3>
 	  <%@eden_heros.each do |hero|%>
 	  <div class="span3 hero">
@@ -38,8 +37,10 @@
 	  <%end%>
 	</div>
 </div>
+<div id="paginate"><%=paginate @wanted_list%></div>
 
-<div id="character_modal" class="modal hide fade">Hello</div>
+
+<div id="character_modal" class="modal hide fade"></div>
 
 <script>
 $('div.character').click(function(){

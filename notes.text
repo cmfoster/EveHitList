@@ -1,0 +1,10 @@
+TODO
+
+Finish creating styles for How,Why and Who modal windows.
+
+Create functionality for Redis to store the value of total bounty pool so that metric can be called directly through redis and not called
+as a database query for every visitor to the site.
+
+Other then that, the site is almost ready for public launch.
+
+Undecided if pagination will be called by ajax or not.

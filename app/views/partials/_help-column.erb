@@ -1,0 +1,28 @@
+<div id="help-column" class="span5">
+	<div id="how-button" class="help-info span5">
+		<h4><i class="icon-book icon-white"></i>  How this works?</h4>
+	</div>
+	<div id="why-button" class="help-info span5">
+		<h4><i class="icon-book icon-white"></i>  Why place a bounty?</h4>
+	</div>
+	<div id="who-button" class="help-info span5">
+		<h4><i class="icon-book icon-white"></i>  Who runs this site?</h4>
+	</div>
+</div>
+
+<!-- TODO CREATE CLASS INFO-MODAL -->
+<div id="how" class="modal hide fade info-modal"><%=render :partial => "partials/help-column/how"%></div>
+<div id="why" class="modal hide fade info-modal"><%=render :partial => "partials/help-column/why"%></div>
+<div id="who" class="modal hide fade info-modal"><%=render :partial => "partials/help-column/who"%></div>
+
+<script>
+$("#how-button").click(function(){
+	$("#how").modal();
+});
+$("#why-button").click(function(){
+	$("#why").modal();
+});
+$("#who-button").click(function(){
+	$("#who").modal();
+});
+</script>

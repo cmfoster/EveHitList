@@ -84,4 +84,15 @@ div.hero > img{vertical-align:top;}
 #catch-phrase > p{display:inline-block;}
 #catch-phrase > p > small{color:#FA6900;font-weight:900}
 
+/*PAGINATION*/
+#paginate{width:655px;padding:10px 30px 0 30px;margin-bottom:100px;;text-align:center;}
 
+/*HELP COLUMN*/
+#help-column{
+	position:fixed;
+	/*height:500px;*/
+	width:200px;
+	left:0;
+}
+.help-info{width:100%;margin:0;border-radius:5px;background-color:#2f2f2f;margin-bottom:10px;cursor:help;}
+.help-info > h4{margin-left:20px;color:#EEEEEE;line-height:40px;}
