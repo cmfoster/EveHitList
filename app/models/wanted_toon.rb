@@ -1,7 +1,7 @@
 class WantedToon < ActiveRecord::Base
   has_many :wt_ships, :order => :created_at
   attr_accessible :bounty, :character_id, :name, :active_bounty, :alliance, :corporation
-  scope :active_bounties, :conditions => {:active_bounty => true}
+  scope :active_bounties, :conditions => {:active_bounty => true}, :order => :bounty
   
   def last_known_locations
     eve_time = Time.now.utc

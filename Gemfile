@@ -10,6 +10,8 @@ gem 'eaal'
 gem "twitter-bootstrap-rails"
 gem 'whenever', :require => false
 gem 'god'
+gem 'jquery-rails'
+gem 'kaminari'
 
 group :production do
   gem 'pg'
@@ -29,6 +31,4 @@ group :test, :development do
   gem 'factory_girl_rails'
   gem 'timecop'
 end
-
-gem 'jquery-rails'
 
