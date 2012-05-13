@@ -5,7 +5,7 @@ html, body{height:100%;background-color:black}
 .container{width:940px;background-color:black}
 .border{border:1px solid black}
 
-#main-row{height:500px;}
+#main-row{min-height:500px;}
 #side-column, #main-column{height:100%;}
 #side-column{width:200px;float:right;}
 #side-column > h3{color:#EEE;font-weight:900;text-align:center;background-color:#0B486B;opacity:.6;}
@@ -74,5 +74,14 @@ div.hero > img{vertical-align:top;}
 #hero-details > p#hero-name{font-size:14px;font-weight:700;}
 #hero-details > p#hero-collected{color:green;font-weight:900;font-size:16px;}
 
+/*HEAD BANNER*/
+#topbanner{padding-left:35px;background-color:#0B486B;position:relative;overflow:none;}
+#ehllogo{position:absolute;top:0;right:25px;height:120px;width:600px;opacity:.8}
+#banner-info{position:absolute;top:0;height:100%}
+#banner-info > p{margin-bottom:0;text-align:left;color:#FA2A00;font-weight:600;opacity:.7}
+#banner-info > h2{margin-left:30px;color:#2CC72C}
+#catch-phrase{position:absolute;bottom:0;width:100%}
+#catch-phrase > p{display:inline-block;}
+#catch-phrase > p > small{color:#FA6900;font-weight:900}
 
 

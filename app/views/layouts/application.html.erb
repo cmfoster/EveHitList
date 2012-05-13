@@ -7,9 +7,20 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<div class="container">
-	<%= yield %>
-</div>
+	<div class="container">	
+		<div id="topbanner" class="hero-unit">
+			<div id="banner-info">
+				<p>Bounty Pool</p>
+				<h2><%=number_with_delimiter(@total_bounty_pool)%> ISK</h2>
+			</div>
+			<div id="catch-phrase">
+				<p style="margin-right:200px"><small>Where mercs can make money doing what they love...</small></p>
+				<p><small>And players can pay to have others do their dirty work.</small></p>
+			</div>
+			<%=image_tag("evehitlist.png", :id => "ehllogo")%>
+		</div>
+		<%= yield %>
+	</div>
 
 </body>
 </html>
