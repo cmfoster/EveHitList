@@ -9,14 +9,19 @@ html, body{height:100%;background-color:black}
 #side-column, #main-column{height:100%;}
 #side-column{width:200px;float:right;}
 #side-column > h3{color:#EEE;font-weight:900;text-align:center;background-color:#0B486B;opacity:.6;}
-#main-column{background-color:#2f2f2f;width:714px;overflow:hidden;}
+#main-column{/*background-color:#2f2f2f;*/width:714px;overflow:hidden;}
 
 /* WATNED CHARACTER LISTING STYLING */
 .character{
-	width:100%;
+	width:95%;
 	height:80px;
-	border-bottom:5px solid #F2E9E1;
+/*	border-bottom:5px solid #F2E9E1; */
+	background-color:#2f2f2f;
+	border-radius:5px;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
 	margin: 0 auto;
+	margin-bottom:5px;
 	padding-top:10px;
 	padding-left:30px;
 	cursor:pointer;
@@ -56,7 +61,7 @@ div.bounty-how-to > p:last-child > span{color:orange;font-weight:700;letter-spac
 div.bounty-how-to > p.bounty-head{color:#FFF;font-weight:900;font-size:15px;text-align:left;}
 
 /*  SIDE COLUMN STYLING*/
-div.overlay{
+div.overlay{ /*NOT USED*/
   background-color:gray;
   opacity:.2;
   filter:alpha(opacity=40);
@@ -66,13 +71,21 @@ div.overlay{
   position:absolute;
   margin:0;
 }
-div.hero{margin:10px auto;width:100%;border-radius:10px;overflow:hidden;position:relative;}
+div.hero{
+	margin:10px auto;
+	width:100%;
+	border-radius:10px;
+	-webkit-border-radius:10px;
+	-moz-border-radius:10px;
+	overflow:hidden;
+	position:relative;
+}
 div.hero > div#hero-details{display:inline-block;}
 div.hero > img{vertical-align:top;}
 
 #hero-details{}
-#hero-details > p#hero-name{font-size:14px;font-weight:700;}
-#hero-details > p#hero-collected{color:green;font-weight:900;font-size:16px;}
+.hero-name{font-size:14px;font-weight:700;}
+.hero-collected{color:green;font-weight:900;font-size:15px;}
 
 /*HEAD BANNER*/
 #topbanner{padding-left:35px;background-color:#0B486B;position:relative;overflow:none;}

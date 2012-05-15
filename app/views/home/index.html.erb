@@ -1,7 +1,7 @@
 <div id="main-row" class="row">
 	<div id="main-column" class="span10">
 		<%@wanted_list.each do |target|%>
-			<div class="span10 character border" character_id="<%=target.character_id%>">
+			<div class="span10 character" character_id="<%=target.character_id%>">
 				<%=image_tag("http://image.eveonline.com/Character/#{target.character_id}_64.jpg")%>
 				<div class="span3 char-specs">
 					<p class="target"><span>Name:</span> <%=target.name%></p>
@@ -27,11 +27,11 @@
 	  <h3>New Eden Hero's</h3>
 	  <%@eden_heros.each do |hero|%>
 	  <div class="span3 hero">
-	    <div class="overlay"></div>
+
 	    <%=image_tag("http://image.eveonline.com/character/#{hero.character_id}_64.jpg")%>
 	    <div id="hero-details">
-	      <p id="hero-name"><%=hero.name.titleize%></p>
-	      <p id="hero-collected" class="hero"><%=number_with_delimiter(hero.earned_bounty_amt)%> <small>ISK</small></p>
+	      <p class="hero-name"><%=hero.name.titleize%></p>
+	      <p class="hero-collected"><%=number_with_delimiter(hero.earned_bounty_amt)%> <small>ISK</small></p>
 	    </div>
 	  </div>
 	  <%end%>

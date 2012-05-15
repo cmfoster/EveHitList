@@ -6,4 +6,9 @@ class HomeController < ApplicationController
     @total_bounty_pool = WantedToon.all.collect{|toon| toon.bounty}.sum
   end
   
+  def testfbpage
+    @uri = "http://" + request.headers["HTTP_HOST"] + request.headers["PATH_INFO"]
+    # redirect_to :action => :index
+  end
+  
 end
