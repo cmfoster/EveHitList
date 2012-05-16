@@ -6,21 +6,6 @@
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
-<%if request.headers["PATH_INFO"].downcase == "/fbtestpage"%>
-	<meta property="og:title" content="Eve Hit List" />
-	<meta property="og:type" content="website" />
-	<meta property="og:url" content=<%=@uri%> />
-	<meta property="og:image" content="http://image.eveonline.com/character/1142756740_64.jpg" />
-	<meta property="og:site_name" content="Eve Hist List SUCCESS" />
-	<meta property="fb:admins" content="512829915" />
-<%else%>
-	<meta property="og:title" content="Eve Hit List" />
-	<meta property="og:type" content="website" />
-	<meta property="og:url" content="http://www.evehitlist.com" />
-	<meta property="og:image" content="http://image.eveonline.com/character/1142756740_64.jpg" />
-	<meta property="og:site_name" content="Eve Hist List" />
-	<meta property="fb:admins" content="512829915" />
-<%end%>
 <body>
 	
 	<div id="fb-root"></div>

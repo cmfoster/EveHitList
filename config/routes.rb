@@ -6,6 +6,5 @@ EveHitlist::Application.routes.draw do
   resource :wanted_toons 
   match "gettoons" => "wanted_toons#gettoons", :via => :post
   mount Resque::Server.new, :at => "/admin/jobs"
-  match "fbtestpage" => "home#testfbpage"
 
 end
