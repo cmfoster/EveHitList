@@ -15,8 +15,10 @@ class EveApiChecker
       wallet = acct.walletjournal
       entries = wallet.entries
     rescue EAAL::Exception.EveAPIException(500)
+      AdminMailer.error_mail(EAAL::Exception.EveAPIException(500).backtrace).deliver
       return true
     rescue EAAL::Exception.EveAPIException(904)
+      AdminMailer.error_mail(EAAL::Exception.EveAPIException(904).backtrace).deliver
       return true
     end
     @@last_request_time ||= wallet.request_time.to_time #Set @@last_request_time in case this is the initial launch, which would be nil.
@@ -54,8 +56,9 @@ class EveApiChecker
           #Sending in => [NAME,CHARACTERID,BOUNTY PLACED,CORPORATION,ALLIANCE]
         end
       end
-    rescue
+    rescue => msg
       #create sendmail to admin with log of failed name
+      AdminMailer.error_mail(msg.backtrace).deliver
       return false
     end
   end
@@ -68,15 +71,16 @@ class EveApiChecker
       char_info = acct.characterInfo(:characterID => char_id)
       corp_alliance = [char_info.corporation, char_info.alliance]
       return corp_alliance
-    rescue
+    rescue => msg
       if counter < 3
         counter += 1
-        sleep(1200) if Rails.env.production? #wait 20minutes before next pull if failure
+        sleep(600) if Rails.env.production? #wait 20minutes before next pull if failure
         retry
       else
         counter = 0
       end
       #send Admin Email
+      AdminMailer.error_mail(msg.backtrace).deliver
       return ["Unknown","Unknown"]
     end
   end
@@ -86,13 +90,14 @@ class EveApiChecker
     begin
     	acct.scope = "eve"
     	target_names = acct.charactername(:ids => outlaws_with_ids.collect{|c| c[0].gsub("'", "")}.join(',')).characters
-    rescue
+    rescue => msg
       if counter < 3
         counter += 1
         sleep(1200) if Rails.env.production? #wait 20minutes before next pull if failure
         retry
       else
         counter = 0
+        AdminMailer.error_mail(msg.backtrace).deliver
       end
     end
     combine = target_names.collect{|t| t.name}.zip(outlaws_with_ids.collect{|o| [o[0],o[1]]}).each{|f| f.flatten!}

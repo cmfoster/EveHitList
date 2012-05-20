@@ -48,8 +48,8 @@ html, body{height:100%;background-color:black}
 .char-payout > p{color:#FFF;margin-top:10px;font-weight:900;font-size:18px;}
 
 /*  MODAL WINDOW FOR WANTED CHARACTER STYLING */
-#character_modal, .modal-footer{background-color:#2f2f2f;}
-#character_modal{display:none;top:40%;}
+#character_modal > .modal-footer{background-color:#2f2f2f;}
+#character_modal{display:none;top:40%;background-color:#2f2f2f;}
 #character_modal > div > h3{color:orange;text-align:center;font-weight:900;letter-spacing:5px;}
 div.char_sheet{display:inline-block;width:270px;margin:0 auto;}
 div.char_sheet > h2{text-align:center;}
@@ -109,3 +109,8 @@ div.hero > img{vertical-align:top;}
 }
 .help-info{width:100%;margin:0;border-radius:5px;background-color:#2f2f2f;margin-bottom:10px;cursor:help;}
 .help-info > h4{margin-left:20px;color:#EEEEEE;line-height:40px;}
+
+/*HELP MODAL*/
+red{color:red;font-weight:900;}
+.info-modal > div.modal-header > h3{text-align:center}
+.info-modal > div.modal-body > p>red{}

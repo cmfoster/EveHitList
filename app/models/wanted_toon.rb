@@ -48,8 +48,12 @@ class WantedToon < ActiveRecord::Base
     			hero = EdenHero.find_or_initialize_by_character_id(r[7])
     			hero.name ||= r[6] 
     			hero.earned_bounty_amt? ? hero.earned_bounty_amt += payout : hero.earned_bounty_amt = payout #can't add to nil
-    			if !hero.save #If record doesnt save.
-    			  #mail admin
+    			if hero.save!
+    			  info = [r, payout]
+    			  AdminMailer.payout(r, payout).deliver
+  			  else
+    			  info = [r, payout]
+    			  AdminMailer.error_mail(info).deliver
   			  end
 			  end
       end

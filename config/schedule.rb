@@ -28,3 +28,4 @@ end
 every 8.hours do 
   runner "WantedToon.active_bounties.each{|target| PullWantedToonRecord.find_new_bc_records(target)}"
 end
+

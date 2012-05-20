@@ -12,6 +12,7 @@ gem 'whenever', :require => false
 gem 'god'
 gem 'jquery-rails'
 gem 'kaminari'
+gem 'tlsmail'
 
 group :production do
   gem 'pg'

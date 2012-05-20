@@ -14,7 +14,7 @@ EveHitlist::Application.configure do
   config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send
-  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
@@ -34,4 +34,21 @@ EveHitlist::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+    
+   require 'tlsmail'
+      Net::SMTP.enable_tls(OpenSSL::SSL::VERIFY_NONE)
+      ActionMailer::Base.delivery_method = :smtp
+      ActionMailer::Base.perform_deliveries = true
+      ActionMailer::Base.raise_delivery_errors = true
+      ActionMailer::Base.smtp_settings = {
+          :address => "smtp.gmail.com",
+          :port => "587",
+          :domain => "gmail.com",
+          :enable_starttls_auto => true,
+          :authentication => :login,
+          :user_name => "info@fmbuzz.com",
+          :password => "@Cooler17"
+      }
+
+  
 end

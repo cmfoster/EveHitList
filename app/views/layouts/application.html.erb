@@ -1,37 +1,42 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>EveHitlist</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-	
-	<div id="fb-root"></div>
-	<script>(function(d, s, id) {
-	  var js, fjs = d.getElementsByTagName(s)[0];
-	  if (d.getElementById(id)) return;
-	  js = d.createElement(s); js.id = id;
-	  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=340893449276377";
-	  fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));</script>
-	
-	<div class="container">	
-		<div id="topbanner" class="hero-unit">
-			<div id="banner-info">
-				<p>Bounty Pool</p>
-				<h2><%=number_with_delimiter(@total_bounty_pool)%> ISK</h2>
+	<head>
+	  <title>EveHitlist</title>
+	  <%= stylesheet_link_tag    "application", :media => "all" %>
+	  <%= javascript_include_tag "application" %>
+	  <%= csrf_meta_tags %>
+	</head>
+	<body id="stuff">	
+		<div class="container">	
+			<div id="topbanner" class="hero-unit">
+				<div id="banner-info">
+					<p>Bounty Pool</p>
+					<h2><%=number_with_delimiter(@total_bounty_pool)%> ISK</h2>
+				</div>
+				<div id="catch-phrase">
+					<p style="margin-right:200px"><small>Where mercs can make money doing what they love...</small></p>
+					<p><small>And players can pay to have others do their dirty work.</small></p>
+				</div>
+				<%=image_tag("evehitlist.png", :id => "ehllogo")%>
 			</div>
-			<div id="catch-phrase">
-				<p style="margin-right:200px"><small>Where mercs can make money doing what they love...</small></p>
-				<p><small>And players can pay to have others do their dirty work.</small></p>
-			</div>
-			<%=image_tag("evehitlist.png", :id => "ehllogo")%>
+				<%=render :partial => "partials/help-column" unless request.user_agent.downcase.include? "eve-igb"%>
+			<%= yield %>
 		</div>
-		<%=render :partial => "partials/help-column" unless request.user_agent.downcase.include? "eve-igb"%>
-		<%= yield %>
-	</div>
 
-</body>
+	</body>
+	<script>
+		//On resize
+		$(window).resize(function(){
+			if ($("html").width() < 1400){
+				$("#help-column").fadeOut(500);
+			} else
+			{
+				$("#help-column").fadeIn(1000);
+			}
+		});
+		//On load
+		if ($("html").width() < 1400){
+			$("#help-column").hide();
+		}
+	</script>
 </html>

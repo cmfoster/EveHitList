@@ -36,6 +36,7 @@ class PullWantedToonRecord
         retry
       else
         #send Admin Email to update manually and inspect error
+        AdminMailer.error_mail(EOFError.backtrace).deliver
         counter = 0
       end
     end

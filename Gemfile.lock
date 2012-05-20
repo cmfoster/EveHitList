@@ -178,6 +178,7 @@ GEM
     thor (0.14.6)
     tilt (1.3.3)
     timecop (0.3.5)
+    tlsmail (0.0.1)
     treetop (1.4.10)
       polyglot
       polyglot (>= 0.3.1)
@@ -223,6 +224,7 @@ DEPENDENCIES
   sass-rails (~> 3.2.3)
   sqlite3
   timecop
+  tlsmail
   twitter-bootstrap-rails
   uglifier (>= 1.0.3)
   whenever
