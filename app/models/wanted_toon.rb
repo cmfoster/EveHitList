@@ -1,7 +1,7 @@
 class WantedToon < ActiveRecord::Base
   has_many :wt_ships, :order => :created_at
   attr_accessible :bounty, :character_id, :name, :active_bounty, :alliance, :corporation
-  scope :active_bounties, :conditions => {:active_bounty => true}, :order => :bounty
+  scope :active_bounties, :conditions => {:active_bounty => true}, :order => 'bounty DESC'
   
   def last_known_locations
     eve_time = Time.now.utc
@@ -33,6 +33,8 @@ class WantedToon < ActiveRecord::Base
       payout = (r[4] - r[5]) * 0.65
       if WtShip.find_by_lossurl(r[0]) #unless there is an exact time match for a record, create a new record
 	      return false
+      elsif self.created_at > r[3]
+        return false
       else
         if self.bounty < payout
           payout = self.bounty

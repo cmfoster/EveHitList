@@ -7,7 +7,7 @@
 
 #ignore files
 /config/initializers/eve_corp_api_key.r*
-/config/resque_secrets.yml
+#/config/resque_secrets.yml
 *~
 # Ignore bundler config
 /.bundle
