@@ -14,10 +14,7 @@ set :use_sudo, false
 set :scm, :git
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
-role :web, "74.207.237.5"                          # Your HTTP server, Apache/etc
-role :app, "74.207.237.5"                          # This may be the same as your `Web` server
-role :db,  "74.207.237.5", :primary => true # This is where Rails migrations will run
-role :db,  "74.207.237.5"
+
 
 # if you're still using the script/reaper helper you will need
 # these http://github.com/rails/irs_process_scripts
