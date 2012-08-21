@@ -4,7 +4,6 @@ set :rvm_type, :user
 require "whenever/capistrano"
 require "bundler/capistrano"
 set :application, "EveHitList"
-set :user, "n0de"
 set :repository,  "git@github.com:cmfoster/EveHitList.git"
 set :branch, "master"
 
