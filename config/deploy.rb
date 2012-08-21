@@ -7,7 +7,6 @@ set :application, "EveHitList"
 set :user, "n0de"
 set :repository,  "git@github.com:cmfoster/EveHitList.git"
 set :branch, "master"
-set :smc_passphrase, "cooler17"
 
 set :deploy_to, "/home/#{user}/#{application}"
 set :deploy_via, :copy
