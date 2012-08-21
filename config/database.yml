@@ -17,11 +17,3 @@ test:
   database: db/test.sqlite3
   pool: 5
   timeout: 5000
-
-production:
-  adapter: postgresql
-  database: Eve_Hit_List_production
-  username: EHL_app
-  password: wanted!
-  host: localhost
-  encoding: UTF8
